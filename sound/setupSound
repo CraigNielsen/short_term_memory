@@ -1,0 +1,22 @@
+copy the .soundrc file to the home directory to overright the alsa settings. 
+Now pulse audio will be used to route sound.
+\
+try run this now, doesnt work look at list below:
+
+/usr/bin/pacmd set-sink-port alsa_output.pci-0000_00_1b.0.analog-stereo analog-output-headphones
+
+
+
+else see: 
+http://www.6by9.net/configuring-pulseaudio-for-multiple-output-devices/
+
+run pacmd list-cards
+look for the analogue pci card
+run pacmd list-sinks
+observe the analogue sink
+
+find out the name of the headphones port (can plug in headphones and run list-sinks and look for active port.
+
+finally set the sink port as shown in the commmand above, but sub in the values for the pci devices.
+this should work.
+

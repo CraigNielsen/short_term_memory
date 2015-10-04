@@ -1,0 +1,65 @@
+WARNING: DON'T RUN THESE SCRIPTS WHILE WEARING EARPHONES!!!  THE SOUND
+MIGHT POP ON INSTANTLY, AND MIGHT BE DEAFENING LOUD, AND COULD CAUSE
+EAR DAMAGE OR PERMANENT DEAFNESS.
+
+# Steve Litt's ALSA Troubleshooting Tools, Version 0.01
+# Copyright (C) 2013 by Steve Litt
+# No Warranty, use at your own risk.
+# Expat license, see COPYING file
+
+These are Steve Litt's ALSA troubleshooting scripts.  They all work by
+manipulating aplay, arecord, and amixer, which of course must be
+installed.
+
+Steve Litt's ALSA troubleshooting scripts carry no warranty and are
+licensed with the Expat free software license. See the COPYING file.
+
+The reason for these scripts is because ALSA mutes are surprisingly
+hard to find and diagnose. So one of these scripts unmutes everything
+muted on the chosen card, while the other reports on all ALSA muted
+controls.
+
+All these scripts are written in Bash and AWK, so they should work on
+pretty much any Linux machine with aplay, arecord and amixer
+installed.
+
+All files for this set should reside in a single directory.  All .sh
+and .awk files should be permissioned executable.  These programs
+create intermediate files which are not temporary files, which is OK
+if you keep it all in one directory and don't mark anything read-only.
+I'm aware this project is carelessly written: I had only a few hours
+to do it, and it works surprisingly well.
+
+**************************************** THE UNMUTING SCRIPT
+****************************************
+
+WARNING: DON'T RUN THIS SCRIPT WHILE WEARING EARPHONES!!!  THE SOUND
+MIGHT POP ON INSTANTLY, AND MIGHT BE DEAFENING LOUD, AND COULD CAUSE
+EAR DAMAGE OR PERMANENT DEAFNESS.
+
+This script is called unmute_all.sh. When you run it, if there's only
+one audio card, it unmutes everything on that card. If there are more
+than one card, it presents you with a menu of cards, you input the
+card number (0, 1, 2, etc), and it unmutes all muted controls on that
+card.  Here's the syntax:
+
+./unmute_all.sh
+
+If your lack of sound is caused by an ALSA mute, and a heck of a lot
+of sound problems are caused by just that, your sound will instantly
+pop back on.
+
+Naturally, you'll still need to check levels. I didn't want my scripts
+to mess with levels.
+
+**************************************** THE MUTE FINDER SCRIPT
+****************************************
+
+If you're the kind of person who wants to find *why* a mute happened, 
+the shotgun approach of unmute_all.sh erases all evidence, preventing
+you from finding what caused the mute. Therefore, these tools also
+include an exploration script. You can do this with find_all_mutes.sh:
+
+./find_all_mutes.sh
+
+
