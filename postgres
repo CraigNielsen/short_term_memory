@@ -1,0 +1,54 @@
+#two ways to connect to db
+1) peer authentication like: 
+sudo -u postgres psql postgres
+2) through TCP/IP connection, TCP authentication
+#useful commands:
+#\?: Get a full list of psql commands, including those not listed here.
+#
+#\h: Get help on SQL commands. You can follow this with a specific command to get help with the syntax.
+#
+#\q: Quit the psql program and exit to the Linux prompt.
+#
+#\d: List available tables, views, and sequences in current database.
+#
+#\du: List available roles
+#
+#\dp: List access privileges
+#
+#\dt: List tables
+#
+#\l: List databases
+#
+#\c: Connect to a different database. Follow this by the database name.
+#
+#\password: Change the password for the username that follows.
+#
+#\conninfo: Get information about the current database and connection.
+#\du to check all users and privileges
+#
+#postgres=# create user with password '123';
+#
+#postgres=# create database mydatabaseName owner ownerName;
+#
+#Edit /etc/postgresql/9.1/main/pg_hba.conf (path will differ) and change:  local   all             all                                     peer
+#
+#Edit /etc/postgresql/9.1/main/pg_hba.conf (path will differ) and change peer to md5 inside:  local   all             all                      peer. then can restart server using sudo service postgresql restart
+#
+#\d shows tables ... \d tablename shows details of that table
+#
+#\d+ show data of databases for user
+#
+#\d tablename; to show info on the table
+#
+#select name,age from users;
+#
+#select name from users order by name; add DESC or ASC at end
+#
+#select name from city WHERE county = 'usa' AND name LIKE 'N%';
+#add and remove user______________________
+EVOKE CONNECT ON DATABASE your_database FROM PUBLIC;
+
+GRANT CONNECT
+ON DATABASE database_name 
+TO user_name;
+#_________________________________________

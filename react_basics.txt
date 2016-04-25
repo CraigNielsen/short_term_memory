@@ -1,0 +1,64 @@
+ __________________________________________________________
+ #components :
+ a component takes in state and properties, this is rendered to HTML.
+ the Virtual DOM is used to precompile JSX into React syntax. The virtual dom
+  also re-renders components, and only makes changes to the browser dom in areas
+  that have changed. (it compares Virtual DOMs).
+
+var Component = React.createClass({
+  render: function() {
+    return (
+    );
+  }
+});
+# renders the component using :
+#takes in the component and the element in HTML
+React.render(
+  <Component />,
+  document.getElementById('elementIdInHTML')
+);
+
+
+ReactDOM.render(
+  <Component />,
+  document.getElementById('elementIdInHTML')
+);
+__________________________________________________________
+#state
+# getInitialState, returns object with properties that represent elements
+# of the state::
+
+getInitialState: function () {
+  return {};
+}
+#use {}
+# this.state.elementOfState (property of the state function)
+
+#set Local State:
+this.setState({ element: new_value})
+
+____ #global state __________________________________________
+
+# need a main class that returns children in the render function
+# pass the parent state as a object:
+<ChildClass localVarNameForChild = { this.NameOfVar }
+# var can be a function handling state
+# use this.props.localVarNameForChild
+
+____ #arrays _______________________________________________
+
+# add array to state
+# create a map callback for array :
+this.state.arrayName.map(function (ValueInArray) {
+          return <ChildComponent childVarName=passInSOmething />
+          })
+# remember can add to array state like:
+this.setState({ arrayName: this.state.arrayName.concat(dataToAdd)})
+__________________________________________________________
+#events
+
+#added within the HTML (jsx) tags:
+<button onClick={pass_in_a_local_function_using(this.localFunction)}  ></button>
+# onClick()
+# onChange()
+# onSubmit()
