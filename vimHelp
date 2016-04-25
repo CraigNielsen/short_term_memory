@@ -1,0 +1,4 @@
+select text:
+v / foo
+will select from current position to foo.
+
