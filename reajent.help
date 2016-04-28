@@ -1,0 +1,117 @@
+REAGENT
+______________________________________________
+using js inside of reajent :
+
+(def my-obj (clj->js {:keyword "value" #BEWARE of using :keyword-with-dashes (will get undefined error)
+						:random "323"
+						:function (fn [] "hello")})) #this is a javascript function
+
+(.log js/console my-obj)
+(.log js/console (.-random my-obj)) # returns the keyword using .-keyword
+(.log js/console (.function my-obj)) #returns the function using .func
+
+the above code will return in the browser:
+323
+hello
+>
+_______________________________________________
+to get a handle on the body of a document:
+
+(.log js/console (.-body js/document))
+______________________________________________
+ 
+to render a component using reajent:
+use a normal clojure function:
+(defn simple
+	[]
+	[:div "this is simple"])
+this function is passed into reajent/render-component:
+(reajent/render-component [simple] (.-body js/document)) # add the destination in child parens
+use (str ) inside a div so that spans are not used inside of div in DOM 
+____________________________________________
+to add children component:
+pass in recursively
+defn elem-a
+	[]
+	[:div "hi"]
+defn elem-b
+	[]	
+	[:div "bye"
+		[elem-a]]
+when render elem-b, with show in body:
+bye
+hi
+
+____________________________________________
+ATOMS
+____________________________________________
+to handle state is by using an atom
+the atom holds a value that you can (deref atom1) or @atom1
+
+to change value use (reset! atom1 "somethingelse")
+
+to add to last element of vector can use:
+(def things (atom [1 2 3 4]))
+(swap! things conj 5) #swap! takes in atom, then function, then value
+
+note: atoms are tracked by reagent, so changes are rerendered in the dom automatically.
+
+(def app-state (atom {:people ['this' 'is' 'a' 'list']}))
+can deref the list like so:
+(defn people []
+	[:ul (for [person (@app-state :people)]
+		[:li person])])
+OR Create a (cursor ): # this keeps track of a point in the atom (the list, or something else for eg)
+(def the-list (cursor [:people] app-state)) # get :people from app-state and call it "the-list"
+can be used then like this:
+(defn people []
+	[:div
+		[:ul (for [person @the-list]
+			[:li person])]])
+time: 19mins
+___________________________________________
+to create LOCAL STATE 19:17
+___________________________________________
+use let and define a new local atom for a component, use a fn:
+(defn new-person
+	[]
+	(let [text (atom "")]
+		(fn []
+			[div
+				[:input {:type "text"	
+						 :placeholder "Person"
+						 :value @text
+						 :on-change #(reset! text (.. % -target -value))}] # change to %.target.value (% is the event returned when on-change is called)
+				[:button {:on-click (fn []
+									(swap! people conj @text)
+									(reset! text ""))} "Add"]])))
+___________________________________________
+USING CHANNELS
+
+(def app-state (atom {:a 1 :b 0})))
+(def calc (atom nil))
+
+(defn somecalc 
+	[a b]
+	(reduce + (repeat 100 (+ a b))))
+
+(def watcher (monitor app-state [:a] [:b])) # creates a channel that monitors changes in values of keys
+
+(go (while true
+		(let [state @(<! watcher) #the watcher channel is derefferenced. <! is called a take. (it takes the value inside of watcher, and updates the local variables) the values flow from changes in app-state.
+				 	a (state :a)
+					b (state :b)]
+		(reset! calc (somecalc a b)))))
+
+this state can be rendered as a view like so:
+(defn numbers []
+	[:div
+		[can add input here to change app-state]
+		(when-let [c @calc] #when-let only rendered when @calc is not null
+			[:div (str "calc" c)])]) #shows the value of calc state.
+
+
+
+
+
+
