@@ -1,0 +1,14 @@
+#copy config file
+#setup plugins
+# pathogen
+mkdir -p ~/.vim/autoload ~/.vim/bundle && \
+curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
+# ag solver searcher
+sudo apt-get install silversearcher-ag
+cd ~/.vim/bundle && git clone https://github.com/rking/ag.vim ag
+
+# vim jedi
+cd ~/.vim/bundle/ && git clone --recursive https://github.com/davidhalter/jedi-vim.git
+# need to make sure python support is available in vim..compile vim
+
+

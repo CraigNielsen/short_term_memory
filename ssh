@@ -1,0 +1,9 @@
+sudo service ssh start
+
+commands : start stop restart status
+use: sudo service ssh status -l
+
+to enable on startup, rename /etc/init/ssh.conf.disable to 
+/etc/init/ssh.conf (I have renamed to disabled, it is enabled when installed)
+(change password to more secure if set to startup automatically)
+sudo passwd USERNAME

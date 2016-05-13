@@ -6,6 +6,15 @@ sudo -u postgres psql postgres
 #\?: Get a full list of psql commands, including those not listed here.
 #
 #\h: Get help on SQL commands. You can follow this with a specific command to get help with the syntax.
+#   _____setup user:
+#   get into postgres as postgres user with su rights
+>> sudo -u postgres psql
+
+postgres=# create user username with password '123';
+#
+postgres=# create database 'mydatabaseName' owner 'ownerName';
+#
+postgres=# alter user username with createdb; # createdb is a role
 #
 #\q: Quit the psql program and exit to the Linux prompt.
 #
@@ -25,10 +34,6 @@ sudo -u postgres psql postgres
 #
 #\conninfo: Get information about the current database and connection.
 #\du to check all users and privileges
-#
-#postgres=# create user with password '123';
-#
-#postgres=# create database mydatabaseName owner ownerName;
 #
 #Edit /etc/postgresql/9.1/main/pg_hba.conf (path will differ) and change:  local   all             all                                     peer
 #
