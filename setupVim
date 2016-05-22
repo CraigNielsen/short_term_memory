@@ -1,3 +1,7 @@
+# install jedi vim 
+sudo apt-get install vim-python-jedi
+pip install jedi
+
 #copy config file
 #setup plugins
 # pathogen
@@ -6,9 +10,8 @@ curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
 # ag solver searcher
 sudo apt-get install silversearcher-ag
 cd ~/.vim/bundle && git clone https://github.com/rking/ag.vim ag
-
-# vim jedi
-cd ~/.vim/bundle/ && git clone --recursive https://github.com/davidhalter/jedi-vim.git
+# install supertab
+cd .vim/bundles && git clone https://github.com/ervandew/supertab.git
 # need to make sure python support is available in vim..compile vim
 
 
