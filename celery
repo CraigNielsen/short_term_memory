@@ -1,0 +1,31 @@
+http://blog.miguelgrinberg.com/post/using-celery-with-flask
+
+ Celery installation has three core components:
+
+The Celery client. This is used to issue background jobs. When working with Flask, the client runs with the Flask application.
+The Celery workers. These are the processes that run the background jobs. Celery supports local and remote workers, so you can start with a single worker running on the same machine as the Flask server, and later add more workers as the needs of your application grow.
+The message broker. The client communicates with the the workers through a message queue, and Celery supports several ways to implement these queues. The most commonly used brokers are RabbitMQ and Redis.
+___________________________________________________________________________________
+#Any functions that you want to run as background tasks need to be decorated with the celery.task decorator. For example:
+@celery.task
+def my_background_task(arg1, arg2):
+    # some long running task here
+    return result
+
+#Then the Flask application can request the execution of this background task as follows:
+k = my_background_task.delay(10, 20)
+or
+task = my_background_task.apply_async(args=[10, 20])
+
+#When using apply_async(), you can give Celery more detailed instructions about how the background task is to be executed. A useful option is to request that the task executes at some point in the future. 
+task = my_background_task.apply_async(args=[10, 20], countdown=60)
+___________________________________________________________________________________
+RabbitMQ
+
+need to install using apt-get
+then setup RabbitMQ users:
+$ sudo rabbitmqctl add_user myuser mypassword
+$ sudo rabbitmqctl add_vhost myvhost
+$ sudo rabbitmqctl set_user_tags myuser mytag
+$ sudo rabbitmqctl set_permissions -p myvhost myuser ".*" ".*" ".*"
+

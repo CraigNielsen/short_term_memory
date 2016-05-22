@@ -1,0 +1,10 @@
+#note drop all: before upgrade (if have db tables)
+#upgrade local dbs
+python manage.py -c file db upgrade 
+
+#save model changes to alembic migration script
+python manage.py -c file db migrate --message "modify model columns" 
+
+#upgrade local db again with new generated migration script
+python manage.py -c file db upgrade   
+
