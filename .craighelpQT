@@ -1,0 +1,13 @@
+QT
+#when debugger not working (freezing) 
+Must set "run in terminal" in the Projects(right hand side)/buildrun/ look for run in terminal
+#dlib issues
+make sure below is present in the .pro file
+LIBS += `pkg-config opencv --libs`
+LIBS += -pthread
+CONFIG += link_pkgconfig
+PKGCONFIG += x11
+
+
+
+

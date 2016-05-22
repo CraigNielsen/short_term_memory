@@ -1,0 +1,23 @@
+Firstly, according to the File System Hierarchy Standards, the location of this installed package should be /opt if it is a binary install and /usr/local if it's a from source install.
+
+Pure binaries
+
+These are ready to use binaries. Normally they just need to be extracted to be installed. A binary package is going to be easy:
+
+sudo tar --directory=/opt -xv f <file>.tar.[bz2|gz]
+add the directory to your path: export PATH=$PATH:/opt/[package_name]/bin
+and you are done.
+
+From sources
+
+A source package is going to be more troublesome (by far) and through they can roughly be processed with the method below, each package is different:
+
+download the package to /usr/local/src
+tar xf <file>.tar.[bz2|gz]
+cd <package name>
+read the README file (this almost certainly exists).
+most Open Source projects use autoconf/automake, the instructions should be in the README. Probably this step will go: ./configure && make && make install (run the commands separately for sanity if something goes wrong though).
+If there's any problems in the install then you'll have to ask specific questions. You might have problems of incorrect versions of libraries or missing dependencies. There's a reason that Debian packages everything up for you. And there is a reason Debian stable runs old packages - finding all the corner cases of installing packages on more than a dozen different architectures and countless different hardware/systems configurations is difficult. When you install something on your own you might run into one of these problems!
+
+for the keyboard to use scroll
+http://bakeabyte.blogspot.co.za/2014/07/using-zoom-slider-on-microsoft-natural.html

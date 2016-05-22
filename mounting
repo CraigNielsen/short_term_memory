@@ -1,0 +1,8 @@
+mount -t TYPEOFFILE(eg ntfs) /dev/sda1 /media/location
+
+#can use fdisk -l to find devices
+#thunar uses folder names to determine mount points in /media
+#so to mount Memory, create Memory folder in /media and mount Memory to that folder.
+
+umount /media/location
+#to unmount the locations

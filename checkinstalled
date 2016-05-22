@@ -1,0 +1,9 @@
+
+done: the new package has been installed and saved to
+
+ /home/craig/git_repos/opencv/build/build_20160514-1_amd64.deb
+
+ You can remove it from your system anytime using: 
+
+      dpkg -r build
+ ___________________________________________

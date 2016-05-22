@@ -1,0 +1,24 @@
+d #show list of directories for navigation
+select text:
+v / foo
+will select from current position to foo.
+:find #find files in current path
+:set path? # what is current path
+:set path=../../../  #set path to something wider
+CTRL-o  #move back
+CTRL-i  #move forward
+:help #get some commands help 
+
+________tabbing___________
+:tabn :tabp to swtich tabs
+:tabe <filepath> adds a new tab
+:q or :wq quits
+can map to F7 and F8
+______split screen ______
+:sp <filepath>
+CTRL W and then direction to move
+or CTRL W W vs. CTRL W w
+Ctrl+W, S # for horizontal splitting
+Ctrl+W, v # for vertical splitting
+Ctrl+W, Q # to close one
+Ctrl+W, Ctrl+W # to switch between windows
