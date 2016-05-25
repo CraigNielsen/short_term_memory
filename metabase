@@ -1,0 +1,22 @@
+______________   tmux   _________________________
+tmux session on prod box and staging
+
+tmux attach (to attatch to an existing session )
+ctrl b (prefix command)
+p n previous next
+c create while in session (window)
+numbers on keyboard are for windows
+[ scroll in visual mode
+d detach (runs as backgroun)
+___________________________________________________
+__if running in docker..check the docker containers__
+docker ps (show running containers)
+docker-compose -f ... stop metabase(service name)
+_______________   metabase   _____________________
+to start metabase 
+cd to metabase
+java -jar metabase.jar
+need to hit the route to kickstart metabase
+then detach session
+metabase.db.h2.db is persistant database
+_________________________________________________
