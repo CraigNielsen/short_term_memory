@@ -1,2 +1,19 @@
 lsb_release -da
 sudo lsb_release -cs
+
+_________________________________________________
+#add default program:
+
+can edit /usr/share/applications/mimeinfo.cache
+find mimetype using: >>file --mime-type <path-to-file>
+find program name (differs from winkeyD program name)
+
+can also add custom file to mimeapps.list
+add it to ~/.local/share/applications/mimeapps.list
+__________________________________________________
+# mount ISO
+
+#create a mount point: and mount as loop
+>> sudo mkdir -p /mnt/disk
+>> mount -o loop disk1.iso /mnt/disk
+__________________________________________________
