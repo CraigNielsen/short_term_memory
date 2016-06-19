@@ -1,5 +1,8 @@
+packaged faulty claims:
+
 select * from packaged_stock_unit psu where psu.stock_unit_id IN  (select fc.stock_unit_id from faulty_claim fc where fc.id in (select fcmst.faulty_claim_id from faulty_claim_manager_status fcmst join (select max(fcms.created_on) date, fcms.faulty_claim_id from faulty_claim_manager_status fcms group by fcms.faulty_claim_id) max on fcmst.created_on = max.date where fcmst.status = 'APPROVED'));
 97ms execution planning 180ms
 
 select * from packaged_stock_unit psu join stock_unit su on psu.stock_unit_id = su.id join faulty_claim fc on fc.stock_unit_id = su.id join faulty_claim_manager_status fcms on fcms.faulty_claim_id = fc.id inner join (select fcmst.faulty_claim_id id, max(fcmst.last_updated_on) maxx from faulty_claim_manager_status fcmst group by fcmst.faulty_claim_id) sub on sub.id = fc.id and sub.maxx = fcms.last_updated_on where fcms.status = 'APPROVED';
 100ms execution planning 360ms
+________________________________________
