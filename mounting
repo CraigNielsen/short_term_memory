@@ -6,3 +6,7 @@ mount -t TYPEOFFILE(eg ntfs) /dev/sda1 /media/location
 
 umount /media/location
 #to unmount the locations
+#
+#
+# using fstab to mount stuff
+# :https://www.linuxliteos.com/manual/install.html#ext4

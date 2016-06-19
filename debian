@@ -4,10 +4,11 @@ sudo lsb_release -cs
 _________________________________________________
 #add default program:
 
-can edit /usr/share/applications/mimeinfo.cache
+can edit /usr/share/applications/mimeinfo.cache (just a cache of .desktop processed files)
+
 find mimetype using: >>file --mime-type <path-to-file>
 find program name (differs from winkeyD program name)
-
+can also look at mineapps.cache to see syntax for use in mimeapps.list
 can also add custom file to mimeapps.list
 add it to ~/.local/share/applications/mimeapps.list
 __________________________________________________

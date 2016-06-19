@@ -1,3 +1,9 @@
+
+use apt to install .deb files rather than dpkg:
+sudo cp *.deb /var/cache/apt/archives/
+then apt-get upgrade
+
+
 Firstly, according to the File System Hierarchy Standards, the location of this installed package should be /opt if it is a binary install and /usr/local if it's a from source install.
 
 Pure binaries
