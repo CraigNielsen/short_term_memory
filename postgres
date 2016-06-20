@@ -35,6 +35,9 @@ postgres=# alter user username with createdb; # createdb is a role
 #\conninfo: Get information about the current database and connection.
 #\du to check all users and privileges
 #
+#on upgrade: need to edit old postgres.conf file in /etc/postgres/9.old/main/postgres.conf (change port)
+#as well as new one to change port to correct port = 5432
+#
 #Edit /etc/postgresql/9.1/main/pg_hba.conf (path will differ) and change:  local   all             all                                     peer
 #
 #Edit /etc/postgresql/9.1/main/pg_hba.conf (path will differ) and change peer to md5 inside:  local   all             all                      peer. then can restart server using sudo service postgresql restart
@@ -57,3 +60,6 @@ GRANT CONNECT
 ON DATABASE database_name 
 TO user_name;
 #_________________________________________
+
+
+select * from packaged_stock_unit psu left join inventorized_stock_unit isu on psu.stock_unit_id = isu.stock_unit_is IS NULL;

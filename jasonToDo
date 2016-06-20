@@ -1,0 +1,61 @@
+pull all legacy
+
+using worker to pull all legacy into legacy reps
+are using metabase to view legacy reps
+the pulling is done with apschudular in production
+the service is started with docker-compose 
+service is called backend-jobs : only job is pulling
+____________________________________
+metabase issues and backup
+
+if want to use docker to run metabase, need to setup postgres for persistant database in docker image. (otherwise loose in memory db when docker goes down)
+for now:
+
+we are using: metabase in a tmux session (background console, worker type thing)
+tmux attach : attach to running sessions. (to see metabase service running)
+cntrl b
+man tmux
+if need to restore:  s3 permission from petrus and download and add to file place same shit from backup file
+
+___________________________________
+postgres database backups
+dockerfile in db-backup-service in reps, runs the backup
+the dockerfile that is run from circleci.yml on every push to prod, runs docker up, and all services are started including backup service.
+can run manually in shell, just see dockerfile, in db-backup-service/ops/ in reps for info
+
+____________________________________
+master sku list push
+
+needs to be fixed. zeros need to be removed in branches: everywhere.
+currently rolled out at canal walk and cape town.
+need to fix list (wyndhem is gonna check stock site, and update to new master sku)
+we upload using: upset parts from files (this updates the parts table in reps)
+can change db engine in dev.env to point to production db_uri, then use out docker shell (INSIDE PRODUCTION BRANCH) to upsert a local csv.
+Alternatively, upload the csv to production and upsert parts from shell there.
+then need to push to branches
+can use the upsert_products function in legacy utils:
+takes in a list of parts: part.query.all() and a list of branches (branch objects)
+this function will commit all or fail on all. 
+parts table can be dropped and repopulated from csv no worries.
+need to add should_apsert_products attribute to each new branch that gets the master sku list
+____________________________________
+
+react prop shapes
+https://github.com/jasrusable/festeasy/blob/staging/new_www/src/utils/shapes.jsx
+____________________________________
+js data relations
+http://www.js-data.io/docs/relations
+
+____________________________________
+worker for pushing parts (async)
+
+____________________________________
+deployment of react website service
+make it build oncircleci with webpack
+build a new netlify for the new site
+update circle ci for new site to deploy (submodule init etc)
+check festeasy
+____________________________________
+
+done___-
+GO THROUGH NEW RELIC PROD RUN JOBS

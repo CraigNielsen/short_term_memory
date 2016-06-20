@@ -1,0 +1,2 @@
+\c reps;
+select sm.to_place_id from inventorized_stock_unit isu join package pkg on pkg.id = isu.package_id join shipment sm on pkg.shipment_id = sm.id;

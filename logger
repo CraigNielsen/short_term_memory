@@ -1,0 +1,14 @@
+In [4]: import logging
+
+In [5]: root_logger = logging.getLogger()
+
+In [6]: root_logger.debug('hests')
+
+
+In [7]: root_logger.setLevel(logg
+logging      logging.ini  
+
+In [7]: root_logger.setLevel(logging.DEBUG)
+
+In [8]: root_logger.debug('hests')
+2016-05-26 07:05:16,252 DEBUG    root  hests

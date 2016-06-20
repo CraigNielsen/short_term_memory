@@ -1,51 +1,75 @@
+new ES6 stuff:
+
+const { parts } = this.props #deref a key inside of this.props
+constructor() {
+    super()                  # need to call this
+    this.state = {           # set initial state
+      parts: null,
+      error: null,
+    }
+	NEED TO BIND CLASS FUNCTIONS IN HERE IE:
+	this.func = this.func.bind(this);
+}
+func() {some function here that needs to be bound}
+
  __________________________________________________________
- #components :
+
+# components :
+
  a component takes in state and properties, this is rendered to HTML.
  the Virtual DOM is used to precompile JSX into React syntax. The virtual dom
   also re-renders components, and only makes changes to the browser dom in areas
   that have changed. (it compares Virtual DOMs).
 
-var Component = React.createClass({
-  render: function() {
+const Component = React.createClass({
+  render() {
     return (
+		<jsx here>
     );
   }
 });
+
 # renders the component using :
-#takes in the component and the element in HTML
+# takes in the component and the element in HTML
+
 React.render(
   <Component />,
   document.getElementById('elementIdInHTML')
 );
 
+_________	 state  _________________________________________________
 
-ReactDOM.render(
-  <Component />,
-  document.getElementById('elementIdInHTML')
-);
-__________________________________________________________
-#state
+
 # getInitialState, returns object with properties that represent elements
-# of the state::
+# of the state: 
+							now uses constructor()
 
-getInitialState: function () {
-  return {};
+constructor () {
+	super()
+    this.state = {keys:values};
 }
-#use {}
+
+# use {}
 # this.state.elementOfState (property of the state function)
 
-#set Local State:
+# set Local State:
 this.setState({ element: new_value})
 
-____ #global state __________________________________________
+OLDER BELOW HERE:
+
+
+_++++++++++++++++++++____+++++++++++++++___+++++++++++++++++____++++++
+
+____ global state __________________________________________
+
 
 # need a main class that returns children in the render function
 # pass the parent state as a object:
-<ChildClass localVarNameForChild = { this.NameOfVar }
+	<ChildClass localVarNameForChild = { this.NameOfVar }
 # var can be a function handling state
 # use this.props.localVarNameForChild
 
-____ #arrays _______________________________________________
+____ arrays _______________________________________________
 
 # add array to state
 # create a map callback for array :
