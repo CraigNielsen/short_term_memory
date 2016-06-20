@@ -1,0 +1,21 @@
+for parent class user and child class posts
+	want to find all latests posts for user where post meets some criteria
+
+want to join the two tables, and use filter to find the latest posts inside a query..
+
+in sql :
+SELECT [whatever]
+FROM posts AS p
+    LEFT JOIN users AS u ON u.user_id = p.user_id
+WHERE p.post_time = (SELECT MAX(post_time) FROM posts WHERE user_id = u.user_id)
+
+and in sqlalchemy:
+s.query(Posts).\
+    outerjoin(Posts.user).\
+    filter(Posts.post_time==\
+        s.query(
+            func.max(Posts.post_time)
+        ).
+        filter(Posts.user_id==User.user_id).
+        correlate(User)
+    )
