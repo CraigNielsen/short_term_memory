@@ -82,3 +82,10 @@ $ docker ps
 CONTAINER ID  IMAGE         COMMAND               CREATED        STATUS       PORTS NAMES
 Excellent. Our container is stopped.
 ________________________________________________________
+STOPPPING
+just stop those test containers with the docker stop command instead of using docker-compose.
+
+docker-compose shines when it comes to start together many containers, but using docker-compose to start containers does not prevent you from using the docker command to do whatever you need to do with individual containers.
+
+docker stop project_nginx_run_1 project_web_run_1 
+Also, since you are debugging containers, I suggest to use docker exec -it <container id> bash to get a shell in a running container (started with docker-compose or not). This has the advantage of not starting a new container.
