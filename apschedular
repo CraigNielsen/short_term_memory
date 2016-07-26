@@ -1,0 +1,5 @@
+log into docker
+log into shell manage.py
+get schedular from backend in import
+run 
+schedular.get_jobs()
