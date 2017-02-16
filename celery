@@ -1,3 +1,20 @@
+some more info:
+celery worker -A appname -c 5 (5 workers)
+celery worker -A appname -P eventlet -c 1000 (concurrency of 1000) might mean 1000 connections to database here -> beware
+
+parallel safety:
+can
+pass values dont use pickle
+tasks should have single concerns
+
+some tasks require to be sequencial, can parrallelize some things, but not others.
+think about task granualarity
+
+which concurrency solution?:
+use multiprocessing unless you KNOW you wont block the thread
+
+
+___________________________________________________________________________________
 http://blog.miguelgrinberg.com/post/using-celery-with-flask
 
  Celery installation has three core components:
@@ -17,7 +34,7 @@ k = my_background_task.delay(10, 20)
 or
 task = my_background_task.apply_async(args=[10, 20])
 
-#When using apply_async(), you can give Celery more detailed instructions about how the background task is to be executed. A useful option is to request that the task executes at some point in the future. 
+#When using apply_async(), you can give Celery more detailed instructions about how the background task is to be executed. A useful option is to request that the task executes at some point in the future.
 task = my_background_task.apply_async(args=[10, 20], countdown=60)
 ___________________________________________________________________________________
 RabbitMQ
