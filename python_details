@@ -1,0 +1,43 @@
+Imports:
+Functions record their definition environment: .__module__ for imported things
+and __globals__
+
+sys.path: file needs to be on the path to import
+sys.modules['cached_import']
+
+__all__ = ['Foo'] for defining what will be exported in a 'import *'
+can be usefull: std lib asyncio uses this approach.
+can define exports in file, and then use 'from .child import *' to bring in sub-modules,
+in __init__.py: __all__= ( packA.__all__ + packB.__all__) etc.
+
+ __path__ hacking
+ packages define internal __path__  variable array
+ can append paths to this variable and inspect it
+eg: import xml
+xml.__path__
+
+__file__ defines where submodules are located
+
+__main__ :
+python -m  module
+runs a modules as a main program:
+eg -> if module has __main__.py can use as entry point by:>> python3 -m module  the __main__  will be run
+so running python3 -m pip install package : gives logs, enforces correct pyton version
+
+sys.path:
+import sys
+sys.path : all imports should  be on this path.
+
+its a list of strings
+walks start to end to find imports
+it looks for all sorts of things,
+can run: pytho3 -vv can see what its doing, working its way down the path.
+
+if lib is not in the sys.path, you could not import it.
+sys.prefix shows the location of the python install: tied to the location
+this is used to form initial path..
+then there is customization for this prefix: what venv does, messingwith this prefix.
+PYTHONHOME variable controls this.
+moving the exexutable for python to another locatoin, and running it: python will look recurisivly up for a /lib/ dir which contains specific python lib files, and will set its own prefix occordingly.
+
+139 mins

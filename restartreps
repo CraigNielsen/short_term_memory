@@ -1,0 +1,5 @@
+drop database reps;
+create database reps;
+\c reps;
+create extension if not exists citext;
+
