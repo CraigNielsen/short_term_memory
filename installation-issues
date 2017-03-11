@@ -1,0 +1,6 @@
+try:
+dpkg -l | grep 'nameofproblempackage'
+then:
+sudo apt remove --purge 'the entries names'
+
+this will remove all packages that may be hanging around, and not found by apt for whatever reason.
