@@ -3,12 +3,13 @@
 
 1) finish the celery tasks branch. using ID's for tasks etc. Can retry tasks on failure $ better logging, visibility on issues.
 
-add supplier sku to parts
+add supplier_sku to parts
 add migration for change
+
+update the form on parts for adding this field
 
 update the upload csv form for adding this supplier sku
 update the heirachy columns for parts upload csv file
-
 update the form on parts for adding this field
 update the schema
 
