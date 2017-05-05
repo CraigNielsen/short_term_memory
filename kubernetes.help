@@ -1,0 +1,19 @@
+install kubectl
+
+
+?difference between minikube and kubectl?
+
+minikube start : starts the cluster
+kubectl is kubernetes cli
+kubectl version
+kubectl cluster-info
+kubctl get nodes
+kubectl get deployments
+kubectl get pods
+kubectl describe pods
+
+--execute command on container inside pod
+-- there is only on container in this pod so no container name needed
+kubectl exec $POD_NAME env
+
+
