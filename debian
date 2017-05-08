@@ -1,6 +1,5 @@
 lsb_release -da
 sudo lsb_release -cs
-
 _________________________________________________
 #add default program:
 
@@ -18,3 +17,6 @@ __________________________________________________
 >> sudo mkdir -p /mnt/disk
 >> mount -o loop disk1.iso /mnt/disk
 __________________________________________________
+#see running processes
+sudo ps aux | grep processname
+htop
