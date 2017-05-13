@@ -1,1 +1,2 @@
 netstat -nlpt
+netstat -ap | grep portnumber

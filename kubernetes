@@ -1,0 +1,79 @@
+create configmaps
+create deployments
+create services
+
+
+kubectl run podname? --image=imagefromhub
+**creates deployments
+all containers run in pods.
+ kubectl expose deployments podname? --port 80 --type LoadBalancer
+**creates external load balancer.
+kubectl get services:
+  shows exposed pods as well
+
+PODS:
+  wrap images
+  share volumes
+  share network/ip between images etc.
+  kubectl get pods
+  kubectl describe pods $podname **shows ipaddress and event log
+  kubectl port-forward podname 10080:80(ip)
+  kubectl logs -f podname **logs streaming for $podname
+  kubectl exec $podname --stdin --tty -c $podname command
+
+POD HEALTH:
+  readinessProbe:** in yml file: (hits /readiness on port 81, using HTTP expects 200)
+    httpGet:
+      path: /readiness
+      port: 81
+      scheme: HTTP
+      initialDelaySeconds: 5
+      timeoutSeconds: 1
+
+  readiness: **kubectl describe pods $podname | grep Readiness or Liveness
+    http-get http://:81/readiness
+    delay=5s
+    timeout=1s
+    period=10s
+
+  configMaps and Secrets:
+
+CONFIGMAPS AND SECRETS:
+  can tell downstream pods config changed, and pods restarts. configmaps are not for sensitve, but more environment vars etc.
+  create secret:
+    kubectl create secret generic tls-certs --from-file=tls/
+
+SERVICES:
+  stable endpoint for pods
+  pods need labels
+  types:
+    cluster ip: internal only
+    node_port: external
+    load_balancer: load balancer, forwards traffic
+  in yml:
+    selector: looks for pods with labels as defined
+    ports: nodePort-external -> targetPort-internal
+  see pods labels:
+    kubectl get pods -l "app=$appname,otherlabel=$anotherlabel"
+  at runtime can add labels:
+    kubectl label pods name 'key=val'
+  ** grep Endpoints on service
+  kubectl describe services name | grep Endpoints
+
+DEPLOYMENTS:
+  what goes where
+  use replica set
+
+Replicasets
+  kubectl get replicasets
+  **if change config yml can:
+    kubectl apply -f a.yml
+      get replicaset
+      get pods
+      describe deployment
+      get services
+
+Rolling updates
+  ROLLOUT
+    updating pods to new version
+
