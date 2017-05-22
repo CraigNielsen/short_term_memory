@@ -90,6 +90,7 @@ docker-compose shines when it comes to start together many containers, but using
 docker stop project_nginx_run_1 project_web_run_1
 Also, since you are debugging containers, I suggest to use docker exec -it <container id> bash to get a shell in a running container (started with docker-compose or not). This has the advantage of not starting a new container.
 
+docker-compose -f filename run service-name command
 ___________________________________________
 docker exec -it <container id> bash
 ___________________________________________
