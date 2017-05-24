@@ -77,3 +77,5 @@ Rolling updates
   ROLLOUT
     updating pods to new version
 
+cat /home/craig/workspace/dev-environments/kubernetes-environments/environment/roles//../patches/development/adaptris-deployment.yaml
+cat /home/craig/workspace/dev-environments/kubernetes-environments/environment/roles//../patches/development/adaptris-deployment.yaml | sed 's|$BASE_PATH|'/hosthome/craig/workspace'|' | kubectl apply -f -

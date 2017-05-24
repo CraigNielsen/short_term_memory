@@ -20,3 +20,5 @@ __________________________________________________
 #see running processes
 sudo ps aux | grep processname
 htop
+#see running processes
+fastest apt speed: sudo netselect-apt -t 15 -a amd64 -n jessie
