@@ -1,6 +1,10 @@
 lsb_release -da
 sudo lsb_release -cs
 _________________________________________________
+#installing tar.gx
+the default location for stand alone packages that have been extracted from a tar.gz should go into /opt. then a link can be created in /usr/local/bin/ : ln -s existing_location new_link_location
+#
+_________________________________________________
 #add default program:
 
 can edit /usr/share/applications/mimeinfo.cache (just a cache of .desktop processed files)
