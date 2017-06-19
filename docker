@@ -1,3 +1,99 @@
 docker rm -v $(docker ps -a -q -f status=exited)
 docker rmi $(docker images -f "dangling=true" -q)
 docker container prune
+docker ps   - Lists containers.
+docker logs - Shows us the standard output of a container.
+docker stop - Stops running containers.
+
+-P flag tells Docker to map any required netw rk ports inside our container to our host.
+-l for the docker ps command. This tells the docker ps command to return the details of the last container started
+-t assigns terminal
+-i interactive connection
+-a show stopped container as well
+>> PORTS
+In our last example the -P flag is a shortcut for -p 5000 that maps port 5000 inside the container to a high port (from ephemeral port range which typically ranges from 32768 to 61000) on the local Docker host. We can also bind Docker containers to specific ports using the -p flag, for example:
+$ docker run -d -p 80:5000 training/webapp python app.py
+
+docker top appname
+shows processing running inside container
+
+________________________________________________________docker images
+>>docker images
+>>docker pull imagename 	#can find images on docker Hub. or by using >> docker search searchterm
+>> docker commit -m 'message' -a 'author for update'
+
+____________Build Image From Dockerfile:__________
+
+Each instruction creates a new layer of the image.
+________________________
+# This is a comment
+FROM ubuntu:14.04
+MAINTAINER Kate Smith <ksmith@example.com>
+RUN apt-get update && apt-get install -y ruby ruby-dev
+RUN gem install sinatra
+_______________________
+>>docker build -t imagename . # -t :belongs to ouruser . save in current dir
+
+
+________________________________________________________run
+docker run -t -i ubuntu /bin/bash
+
+In this example:
+
+docker run runs a container.
+ubuntu is the image you would like to run.
+-t flag assigns a pseudo-tty or terminal inside the new container.
+-i flag allows you to make an interactive connection by grabbing the standard in (STDIN) of the container.
+/bin/bash launches a Bash shell inside our container.
+
+now, you can play around inside this container. When completed, run the exit command or enter Ctrl-D to exit the interactive shell.
+_________________________________________________________Daemonize
+Start a daemonized Hello world:
+Let’s create a container that runs as a daemon.
+
+$ docker run -d ubuntu /bin/sh -c "while true; do echo hello world; sleep 1; done"
+
+-d flag runs the container in the background (to daemonize it).
+In the output, we do not see hello world but a long string:
+This long string is called a container ID. It uniquely identifies a container so we can work with it.
+We can use this container ID to see what’s happening with our hello world daemon.
+
+First, let’s make sure our container is running. Run the docker ps command. The docker ps command queries the Docker daemon for information about all the containers it knows about.
+
+$ docker ps
+CONTAINER ID  IMAGE         COMMAND               CREATED        STATUS       PORTS NAMES
+1e5535038e28  ubuntu  /bin/sh -c 'while tr  2 minutes ago  Up 1 minute        insane_babbage
+
+Note: Docker automatically generates names for any containers started. We’ll see how to specify your own names a bit later.
+Now, we know the container is running. But is it doing what we asked it to do? To see this we’re going to look inside the container using the docker logs command.
+Let’s use the container name insane_babbage.
+$ docker logs insane_babbage
+hello world
+hello world
+hello world
+. . .
+Awesome! The daemon is working and you have just created your first Dockerized application!
+
+$ docker stop insane_babbage
+insane_babbage
+The docker stop command tells Docker to politely stop the running container and returns the name of the container it stopped.
+
+Let’s check it worked with the docker ps command.
+$ docker ps
+CONTAINER ID  IMAGE         COMMAND               CREATED        STATUS       PORTS NAMES
+Excellent. Our container is stopped.
+________________________________________________________
+STOPPPING
+just stop those test containers with the docker stop command instead of using docker-compose.
+
+docker-compose shines when it comes to start together many containers, but using docker-compose to start containers does not prevent you from using the docker command to do whatever you need to do with individual containers.
+
+docker stop project_nginx_run_1 project_web_run_1
+Also, since you are debugging containers, I suggest to use docker exec -it <container id> bash to get a shell in a running container (started with docker-compose or not). This has the advantage of not starting a new container.
+
+docker-compose -f filename run service-name command
+___________________________________________
+docker exec -it <container id> bash
+___________________________________________
+see running jobs inside docker container
+:
