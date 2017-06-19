@@ -44,6 +44,7 @@ query:
       }
     } searches for word taco anywhere in the document
   or with query filter
+  what about a filtered query? a filtered: has a filter and a query object
     {
       "query": {
         "filtered": {
@@ -129,6 +130,15 @@ What if you want to find cape town instead of ct??:
     pass in settings json object
     configure the synonym
 
+or "filter": {
+  "synonym": {
+    "type": "synonym":
+    "synonyms": [
+      "albert => albert, al",
+      "allen => al, allen"
+    ]
+  }
+}
 
   mappings:
   configure types for fields of a document: can configure geo_point (and do geo-spatial lookups etc)
@@ -138,3 +148,7 @@ what about large volumes of data going into es?
 can use _bulk api.
   http://localhost:9200/places/park/_bulk
 
+pyes
+pyelasticsearch: lower level python: need to compile json dicts yourself.
+elasticutils: higher level built ontop of pyelasticsearch,
+elasticsearch: the official low-level client for Elasticsearch
