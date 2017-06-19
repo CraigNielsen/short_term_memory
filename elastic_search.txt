@@ -1,0 +1,140 @@
+why use it?
+built using Java (can run anywhere almost)[these days docker makes even easier]
+1) document store option
+2) Very fast search performance
+3) Scalable
+4) denormalised data store:
+  - in normalised database eg: sql, there are many joins to get data that you want when doing lookups (searching). This does affect performance, as the data grows, the performace drops.
+  Instead we can run queries once, then create these documents, and put them in a document store. freeing up the sql database for more important operations, other than search etc.
+  this becomes more important for queries like sum on large datasets, where the query could be slow. Its better to do the work once, then store data in a store. ready for search against.
+  The goal is read performance.
+
+
+restful API:
+  (server)            (index)     (type)
+  http://localhost:9200/places/restaurant
+  http://localhost:9200/places/park
+  http://localhost:9200/places/house
+
+  note: -index and types must be lowercase
+        -can store many documents types under and index.
+
+
+create indexes:
+  get some json structured data, nested types okay, locations okay
+  post the data to RESTful api.
+  post some more data to the index/type
+
+  convenient to keep schema of documents, although this is not required.
+
+query:
+  1)json object again:
+    {
+      "query": {
+        "match_all": {}
+      }
+    }
+  or
+    {
+      "query": {
+        "query_string": {
+          "query": "taco",
+          "fields": ["name"] search only inside the field for the given query
+        }
+      }
+    } searches for word taco anywhere in the document
+  or with query filter
+    {
+      "query": {
+        "filtered": {
+          "filter": {
+            "range": {
+              "property_to_apply_range_to": {
+                "gte": 4.0   #operators
+              }
+            }
+          },
+          "query": {
+            "query_string": {
+              "query": "taco",
+              "fields": ["name"] search only inside the field for the given query
+            }
+          }
+        }
+      }
+    }
+
+  or just apply a filter
+{
+  "query": {
+    "filtered": {
+      "filter": {
+        "geo_distance: {
+          "distance": "100km", #any resulting matching in km
+          "location": [40.234234, -63.0954345] #latitude , longitude
+        }
+      }
+    }
+  }
+}
+or
+
+{
+  "query": {
+    "filtered": {
+      "filter": {
+        "bool": {
+          "must": [ #also must_not and should
+            {
+              "range": {
+                "rating": {
+                  "gte": "4.0"
+                }
+              }
+            },
+            {
+              "geo_distance: {
+                "distance": "100km", #any resulting matching in km
+                "location": [40.234234, -63.0954345] #latitude , longitude
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}
+
+
+  2)POST navigate to url _search under the index/type/_search (if no add _search, adds document)
+
+  get response:
+  shards
+  hits
+    -metadata
+    -max_score : lucene gives relevance score
+    -_type : document type (could get back more if performed a search at index level)
+    -_source: the data we are looking for
+
+
+What if you want to find cape town instead of ct??:
+
+  synonyms:
+    need to configure.
+    create synonyms file: a synonyms.txt
+      in file:
+        add lines for all synonymns:
+          eg: ny, new york, big apple
+    then rebuild your index (apply settings)
+    pass in settings json object
+    configure the synonym
+
+
+  mappings:
+  configure types for fields of a document: can configure geo_point (and do geo-spatial lookups etc)
+
+what about large volumes of data going into es?
+
+can use _bulk api.
+  http://localhost:9200/places/park/_bulk
+
