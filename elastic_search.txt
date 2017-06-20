@@ -2,7 +2,9 @@ why use it?
 built using Java (can run anywhere almost)[these days docker makes even easier]
 1) document store option
 2) Very fast search performance
-3) Scalable
+  structured data ny taxi rides in 2015. roughly 25gigs search 400ms.
+
+3) Scalable and distributed
 4) denormalised data store:
   - in normalised database eg: sql, there are many joins to get data that you want when doing lookups (searching). This does affect performance, as the data grows, the performace drops.
   Instead we can run queries once, then create these documents, and put them in a document store. freeing up the sql database for more important operations, other than search etc.
