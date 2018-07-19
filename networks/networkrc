@@ -1,0 +1,100 @@
+
+#_________________________________________________________________
+info_on_my_ip() {
+  #ip address
+  #ip addr
+  ip a
+}
+info_on_hostnames() {
+read -d '' help <<- EOF
+.
+host is a device connected to a network ie: device with ip
+hostnames are aliases for ip's
+1 word hostname is sometimes called unqualified hostname eg: webprod
+dns is to transfer hostnames to ip's, also does reverse
+.
+FQDN fully qualified hostname: eg: webprod.mycompany.com
+TLD top level domain eg: .com, .net, .org
+Domains: just to left of TLD
+Sub-domain: further divided. more than 3 parts to FQDN eg: webprod.ny.us.mycompany.com (info on the location of the server)
+.
+display hostname by: #> hostname -f or #> uname -n
+hostname should be in /etc/hostname (distro dependant)
+.
+to resove DNS: host or dig commands
+.
+/etc/hosts contains ip addr to hostname configs
+^^ not available to rest of the network
+/etc/nsswitch.conf controls the order for search domain names ie: files then dns or visa versa
+.
+EOF
+echo "$help"
+}
+
+#_________________________________________________________________
+info_on_ports() {
+read -d '' help <<- EOF
+.
+when service starts it binds to port
+well known:
+22 ssh
+25 SMTP
+80 HTTP
+143 IMAP
+389 LDAP
+443 HTTPS
+1024 + are unpriviliged, and can be used by users
+.
+find predefined ports: /etc/services maps port names to numbers
+.
+EOF
+echo "$help"
+}
+
+#_________________________________________________________________
+info_on_DHCP() {
+read -d '' help <<- EOF
+DHCP: Dynamic Host Configuration Protocol
+assigns IP address to hosts on a network
+when a client wants an ip it send a broadcast message looking for a DHCP server
+The server then provides an ip, netmask, gateway and DNS servers
+The DHCP client (some host on network) configures using this info
+Each IP is "leased" from the pool of IP addresses the DHCP server manages.
+The lease expiration time is configured on the DHCP server
+The client must renew the lease if it wants to keep the IP Address.
+If no renewal, the IP becomes available to other DHCP clients
+.
+configuring a DHCP client (dependent on distro)
+#> ip link (lists network devices)
+files: /etc/newtwork/interfaces
+  and add the dhcp line to the interface
+  auto eth0
+  iface eth0 inet dhcp
+
+Assigning a static IP address in Ubuntu system
+/etc/network/interfaces
+on the iface line add the static keyword, and supply address, netmask and gateway
+eg:
+auto eth0
+iface eth0 inet static
+  address 10.109.155.174
+  netmask 255.255.255.0
+  gateway 10.109.155.1
+
+can assign ip addresses to devices:
+ip address add IP[/NETMASK] dev NETWORK_DEVICE
+eg: ip address add 10.11.12.13 dev eth0
+eg: ip address add 10.11.12.13/255.255.255.0 dev eth0
+ip link set eth0 up
+
+Bringing up and down can use ifup/ifdown (disto dependent)
+examples:
+  ifup eth0
+  ifup enp5s2
+  ifdown eth0
+  ifdown enp5s2
+
+EOF
+echo "$help"
+}
+
