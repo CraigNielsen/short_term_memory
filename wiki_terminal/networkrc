@@ -1,11 +1,11 @@
 
 #_________________________________________________________________
-info_on_my_ip() {
+wiki_networks_on_my_ip() {
   #ip address
   #ip addr
   ip a
 }
-info_on_hostnames() {
+wiki_networks_on_hostnames() {
 read -d '' help <<- EOF
 .
 host is a device connected to a network ie: device with ip
@@ -32,7 +32,7 @@ echo "$help"
 }
 
 #_________________________________________________________________
-info_on_ports() {
+wiki_networks_on_ports() {
 read -d '' help <<- EOF
 .
 when service starts it binds to port
@@ -52,7 +52,7 @@ echo "$help"
 }
 
 #_________________________________________________________________
-info_on_DHCP() {
+wiki_networks_on_DHCP() {
 read -d '' help <<- EOF
 DHCP: Dynamic Host Configuration Protocol
 assigns IP address to hosts on a network
@@ -98,3 +98,48 @@ EOF
 echo "$help"
 }
 
+wiki_networks_network_connectivity() {
+read -d '' help <<- EOF
+.
+--NETWORK CONNECT
+testing connectivity with ping (sends icmp packets)
+ping -c COUNT HOST
+try ping on local network if cant ping outside
+.
+--ROUTE to Destination
+traceroute (requires root)
+#> traceroute -n google.com
+use -n to just use ip address (helpful for dns issues)
+(some routers configured to block router)
+if see * in output (prob being blocked by router)
+also can try
+tracepath -n google.com (simple)
+.
+--NETSTAT wide usage
+-n Display numerical addresses and ports
+-i Displays a list of network interfaces
+-r Displayes the route table . (netstat -rn)
+-p Displays PID of program used (which ssh process connected to)
+-l Display listening sockets (netstat -nlp) processes listening on what ports? If cannot connect to a port, can use this to check process is listening on a specific port
+-t Limit the output to TCP (netstat -ntlp)
+-u Limit the output to UDP (netstat -nulp)
+.
+--PACKET SNIFFING
+making sure payloads are being delivered
+tcpdump (need to run with sudo)
+-n numerical addresses and ports
+-A Display ASCII output (text)
+-v Verbose mode
+-vvv very verbose
+--telnet
+telnet google.com 80
+example cannot ping google.com
+try connect to the port on google
+can do stuff like:
+GET /
+to close: cntl+]
+
+.
+EOF
+echo "$help"
+}

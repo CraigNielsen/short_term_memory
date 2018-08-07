@@ -1,0 +1,15 @@
+#_________________________________________________________________
+wiki_https_on_https_requests() {
+read -d '' help <<- EOF
+.
+The requests python lib makes a call to dns using a hostname to get ip
+after that it makes a call to the ip, for 3 way handshake
+if you dont setup the host header for ssl, the 3 way handshake will use the ip, not the hostname
+but the certificates expect the hostname because they are setup against that
+So need to set up request SSLHandler or something to do 3 way handshake with the hostname.
+.
+EOF
+echo "$help"
+}
+
+#_________________________________________________________________

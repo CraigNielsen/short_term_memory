@@ -1,0 +1,89 @@
+#_________________________________________________________________
+wiki_processes_on_process_management() {
+read -d '' help <<- EOF
+.
+list running processes
+ps
+-e everything
+-f full format string
+-u username
+-p pid
+ps -ef; ps -eH; ps -e --forest
+pstree
+top; htop
+#processes can be in background
+command & (starts command in background)
+Ctrl-c kill forground
+cntrl-z suspend foreground
+bg send suspended to background
+fg foreground a background process
+kill %jobnumber
+kill -l (show all signals)
+jobs (list jobs)
+kill [-sig] pid (can send specific signal)
+eg: kill 123
+kill -15 123
+kill -TERM 123  (all 3 are the same default is sigterm)
+sigkill is number 9
+.
+EOF
+echo "$help"
+}
+
+#_________________________________________________________________
+wiki_processes_setUid() {
+read -d '' help <<- EOF
+.
+when a process starts it runs using users UID and GID.
+setuid = Set User ID upon execution
+can see -rwsr-xr-x 1 root root /usr/bin/passwd
+.
+EOF
+echo "$help"
+}
+
+#_________________________________________________________________
+wiki_processes_on_cron_jobs() {
+read -d '' help <<- EOF
+.
+cron is a time based scheduling service
+crontab - create read update delete schedules (crontable)
+.
+* * * * * command
+| | | | |
+| | | | + - - Day of the week   (0-6) 0=Sunday
+| | | + _ _ _ Month of the year (1-12)
+| | + - - - - Day of the Month  (1-31)
+| + - - - - - Hour              (0-23)
++ - - - - - - Minute            (0-59)
+.
+eg:
+# Run every monday at 7:00
+0 7 * * 1 /opt/sales/bin/weekly-report
+# every 30 mins:
+0,30 * * * * /some/job or */2 * * * * /some/job
+# run for first 5 mins, stated each minute:
+0-4 * * * * /some/job
+.
+if there is any output on cron job, it is mailed to you
+you can check mail with mail command
+if you prefer to direct the output to file:
+0 7 * * 1 /root/backup > /tmp/db.log 2>&1
+.
+crontab file (install a crontab from a file)
+crontab -l list cron jobs
+crontab -e edit cron jobs (uses editor from $EDITOR)
+crontab -r remove all jobs
+.
+can create file and directory of jobs
+then use crontab to install
+crontab /path/to/filename
+now crontab -l
+can edit it and comment out to disable by crontab -e
+or crontab -r to remove
+.
+EOF
+echo "$help"
+}
+
+

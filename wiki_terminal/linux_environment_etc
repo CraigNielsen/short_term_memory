@@ -1,0 +1,78 @@
+
+wiki_packages_() {
+read -d '' help <<- EOF
+.
+packages are just a collection of files
+package managers keep track of versions and what belongs to what
+apt-cache search string
+apt-cache show
+dpkg -l # show installed packages
+dpkg -S /path/to/file # package file belongs to
+dpkg -l package # list all files in package
+dpkg -i pak.deb # install package
+.
+EOF
+echo "$help"
+}
+
+wiki_shell_scripting() {
+read -d '' help <<- EOF
+.
+S=$(hostname) # assign output of command to variable
+A='eat'; echo ${A}ing; #echos eating
+_________________
+CONDITIONAL TESTING
+_________________
+[]
+[ condition-to-test-for ]
+eg: [ -e /etc/passwd ] #file exists
+for help on tests^^ use:
+#> man test
+String1 = String2
+String1 != String2
+arg1 -eq arg2 #equal
+arg1 -ne arg2 #not equal
+arg1 -lt arg2 #less than
+arg1 -le arg2 #less than equal to
+arg1 -gt arg2 #greate than
+arg1 -ge arg2 #greater than equal to
+
+if [ condiition-is-true ]
+then
+  command 1
+  command 2
+else
+  command 3
+elif [ condition-is-true ]
+  command 4
+fi
+_________________
+FOR LOOP
+_________________
+for VAR_NAME in Item1 Item2
+do
+  command_1
+  command_2
+done
+eg:
+for COLOR in red green blue
+do
+  echo "COLOR: $COLOR"
+done
+_____ or
+COLORS="red green blue"
+for COLOR in COLORS
+do
+  echo "COLOR: $COLOR"
+done
+.
+with parameters: $@ all parameters
+for COLOR in $@
+do
+  echo "COLOR: $COLOR"
+done
+.
+EOF
+echo "$help"
+
+}

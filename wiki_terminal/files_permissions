@@ -1,0 +1,172 @@
+#_________________________________________________________________
+wiki_files_on_permissions() {
+read -d '' help <<- EOF
+.
+permissions also known as modes
+# example
+ls -l
+
+-rw-r--r-- 1 jason users 10400 Date sales.data
+breakdown:
+type  user  group   other
+-     rw-   r--     r--
+permission types in the order: rwx.. so - means no permission
+.
+Symbol        Type
+-             regular file
+d             directory
+l             symbolic link
++++++++
+r             read
+w             write
+x             execute
++++++++
+u             user/owner
+g             group
+o             other
+a             all
+.
+# FILES VS DIRECTORIES
+Permission    File  Directory
+r             r     allows filenames to be read in dir
+w             w     allows entries to be modified
+x             x     allows access to contents
+.
+Changing Permissions
+#> chmod ugoa +-= rwx filename/directory
+Item:         Meaning:
+chmod         change mode command
+ugoa          User catagory: user,group,other,all
++-=           add,subtract,set
+rwx           read,write,execute
+.
+examples:
+#> chmod g+wx filename; add group write and execute permission
+#> chomod u-r filename; remove user read permission
+# use comma to separate catagory
+#> chmod u+rwx,g-x filename; add user read,write,exec, and remove group exec
+#> chmod a=r filename; set all to read only
+#> chmod u=rwx,g=rw,o= ;
+Numeric Mode Permissions: OCTAL MODE (8 possible values)
+r   w   x
+0   0   0   off binary
+1   1   1   on binary
+4   2   1   base 10 values for on
+numerics are sums of the permissions
+Octal   Binary  String  Description
+0         0     ---     no permissions
+1         1     --x     execute only
+2        10     -w-     write only
+3        11     -wx     write and execute (2+1)
+4       100     r--     read only
+5       101     r-x     read execute (4+1)
+6       110     rw-     read write (4+2)
+7       111     rwx     read write execute (4+2+1)
+.
+Order has meaning:
+          U     G     O
+Symbolic  rwx   r-x   r--
+Binary    111   101   100
+Decimal   7     5     4
+.
+examples:
+Symbolic      Octal
+-rwx------    700
+-rwxr-xr-x    755
+-rw-rw-r--    664
+-rw-rw----    660
+-rw-r--r--    644
+.
+When creating a file, the group is set to your primary group
+chgrp will change the group
+#> chgrp groupname filename
+.
+Directly Permission and Issues
+Permissions on directy can affect file permission
+can prevent execution of a file,
+keep working up directories looking at permission if you kow the file is correct
+.
+umask masks permissions as a rule
+so when adding new files or folders they get the default permissions but masked by umask (default usually 777 for dirs and 666 for files)
+opposite of chmod ie: umask 777 removes all permissions
+#> touch file, permissions will be default 777
+#umask 007
+#touch another file, permissions will be 770
+.
+EOF
+echo "$help"
+}
+
+#_________________________________________________________________
+wiki_files_on_groups() {
+read -d '' help <<- EOF
+.
+every user is in at least one group (primary group)
+users can belong to many
+groups organise users
+#> groups displays users groups
+can also use id -Gn
+.
+EOF
+echo "$help"
+}
+
+
+#_________________________________________________________________
+wiki_files_permissions_setUid() {
+read -d '' help <<- EOF
+chmod 4755
+.
+when a process starts it runs using users UID and GID.
+setuid = Set User ID upon execution
+can see -rwsr-xr-x 1 root root /usr/bin/passwd
+same for ping (so ping can be used )
+.
+to add setuid attribute on file:
+adding:
+chmod u+s /path/file
+chmod 4755 /path/file
+chomd 0755 to remove
+.
+SECURITY:
+find setuid files:
+find / -perm /4000 -ls
+then...
+looking for files that can be edited by users other than the owner of the file (because they can be run as if they were the owner of the file)
+eg:   Symbolic      Octal
+Good: -rwsr-xr-x    4755
+Bad:  -rwsrwxr-x    4775
+VBad  -rwsrwxrwx    4777  anyone can edit!!!
+.
+SETGID:
+same as set SETUID, but for groups. can run with group priv of file
+will see s in the group edit permission:
+-rwxr-sr-x
+find / -perm /2000 -ls
+adding:
+chmod g+s /path/file
+chmod 2755 /path/file sets groupid permissions
+if want to do both, can have 6755
+  because setuid is 4 and setgid is 2: -rwsrwsr-x
+.
+using on a directory all new files inherit the group id
+it is not retroactive
+Great for working with groups,
+users dont need to change ownership of that file for it to run with groups permissions
+.
+can use a file integrity checker to find unsecure files
+tripwire
+package manageer and others.
+.
+THE STICKY BIT
+Use on a directory to only allow owner of the file/directory to delete it.
+used on /tmp for example
+drwxrwxrwt 10 root root 4096 $time /tmp
+adding
+chmod o+t /path/diectory
+chmod 1777 /path/direcotry
+
+EOF
+echo "$help"
+}
+
