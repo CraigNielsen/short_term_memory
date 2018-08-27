@@ -52,7 +52,7 @@ crontab - create read update delete schedules (crontable)
 * * * * * command
 | | | | |
 | | | | + - - Day of the week   (0-6) 0=Sunday
-| | | + _ _ _ Month of the year (1-12)
+| | | + - - - Month of the year (1-12)
 | | + - - - - Day of the Month  (1-31)
 | + - - - - - Hour              (0-23)
 + - - - - - - Minute            (0-59)
