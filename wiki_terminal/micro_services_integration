@@ -1,0 +1,21 @@
+wiki_ms_integration() {
+read -d '' help <<- EOF
+.
+Avoid exposing internals of micro service
+Changes in service should not cause changes to client
+.
+sharing db accross services is effectivly a large shared API. Each change a potential nightmare. Avoid if not immidately obvious
+.
+Orchestrated vs Choreographed
+Central brain vs Event Driven
+Event driven is decoupled but harder for tracking what happened.. more work needed for logging etc.
+.
+Remote Procedure Calls:
+Proto buffs for example.
+One issue is you cant separate client and server development (they are tied when doing binary stub generation)
+deleting a field in the server for example requires all clients to be updated and deployed
+
+.
+EOF
+echo "$help"
+}

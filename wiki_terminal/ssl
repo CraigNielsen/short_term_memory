@@ -1,0 +1,72 @@
+wiki_ssl() {
+read -d '' words <<- EOF
+  .
+  Encryption:
+  hiding what is sent from one pc to another
+  Asymmetrical (only server knows how to decrypt slow)
+  Symmetrical (both sides can decrypt fast)
+
+  HTTPS:
+    symmetric encryption/decryption:
+      E_k(p) = c       D_k(c) = p
+    asym ecnryption/decryption
+      E_pk(p) = c      D_sk(c) = p encrypt public key, decrypt with secret key
+    sign/verify
+      Sign_sk(message) = signature  Verify_pk(message,signature) = OK?
+
+  Asym encryption is slow/expensive, so we want to get out of it asap.
+  So this could work like so:
+        Client                              Server
+      knows public key of Server
+      sends secret_key encrypted by
+      the public key
+        Enc_pk(secret)=xxx    --------->>>>>    Dec_sk(xxx) = secret
+        D_secret(xxxx) = message <<<<-----      E_secret(message) = xxxx
+  ________________________________________________________________________
+  __sending credit card details for example__
+  https: submit securly
+  The https handshake overview:
+    1) computers agree on how to encrypt
+    2) server sends certificate and key
+    3) my pc starts encrpt
+
+  The https handshake details:
+  1) computers agree
+____________________________________________________________________________
+          CLIENT                                        SERVER
+  (client pc sends what options)   |        |  (Server chooses its options)
+  KEY     Cipher      Hash         |        |  KEY    Cipher     Hash
+  RSA     RC4         HMAC-MD5     | -----> |  RSA    other        HMAC-MD5
+  DSA     AES         .            | <----- |
+  other   other       other        |        |
+____________________________________________________________________________
+
+  2) Server sends certificate to client
+                     |public Key               |
+                    <|Who the server belongs to|<<<<<<<<<<<<
+                     |how long cert is valid   |
+
+____________________________________________________________________________
+
+  3) Client PC starts encrypting 3steps here:
+____________________________________________________________________________
+          CLIENT                                        SERVER
+                    1| Client Key Exchange |
+              both pc calculate master secret code
+                    2| Change Cipher Spec  |
+              then they change the Cipher spec
+                    3| Finished/Ready      |
+____________________________________________________________________________
+  4)
+    Server changes the cipher spec, and can now send encrypted messages
+
+____________________________________________________________________________
+  5) All messages are encrypted back and forth
+
+____________________________________________________________________________
+  Identification:
+  Is the computer who you think it is?
+
+EOF
+echo "$words"
+}
