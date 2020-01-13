@@ -1,0 +1,13 @@
+wiki_android_lifecycles() {
+read -d '' words <<- EOF
+
+Activity:
+Initialized
+Created
+Started
+Resumed
+Destroyed
+
+EOF
+echo "$words"
+}

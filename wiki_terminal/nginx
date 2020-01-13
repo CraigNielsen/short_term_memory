@@ -1,0 +1,20 @@
+wiki_nginx_on_overview() {
+read -d '' help <<- EOF
+.
+Nginx handles request async calling out to another process, making it more of a reverse proxy type architecture.
+.
+install package manager (easy to install, but no packages): apt get install nginx
+ps aux | grep nginx
+ifconfig (then check the ipavailable for nginx and navigate to the ip)
+config files are in: /etc/nginx/
+_________
+nginx.org (most documentation)
+install from source:  get from nginx.org
+extract tar bal
+make sure you have build essential
+./configure help to seee all config options for cmake
+http://nginx.org/en/docs/configure.html
+
+EOF
+echo "$help"
+}

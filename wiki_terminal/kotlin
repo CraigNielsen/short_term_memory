@@ -1,0 +1,178 @@
+wiki_kotlin_coroutines_high_level() {
+read -d '' words <<- EOF
+  .
+  launch {} returns Unit
+  async {} returns Deferred<T> which has await() which is result of coroutine #await can only be called from inside a coroutine
+  runBlocking {} #usually used at top level to create blocking coroutine
+  example:
+  val deferred = (1..1_000_000).map { n ->
+    GlobalScope.async {
+        delay(1000)
+        n
+    }
+  } finishes in 10 seconds, so they are running in parrellel (not 11 days to finish)
+
+  suspend (only called from coroutine or another suspend?)
+  so delay() and await() also need to be in runBlocking, launch or async (because they also use suspend in their declaration)
+
+EOF
+echo "$words"
+}
+
+wiki_kotlin_coroutines_channels() {
+read -d '' words <<- EOF
+  .
+__________________________________________
+need to nest routines to avoid leaks,ie:
+GlobalScope.launch {} # might be bad for leaks if not withing coroutine scope
+structured concurrency
+suspend fun doStuff(refs: List<REfs>) =
+  coroutineScope {
+    GlobalScope.launch {
+      doing things safely due to coroutineScope
+    }
+  }
+  coroutine scope also allows cancellation and finishing of nested stuff
+  so must always use it from a suspend function
+
+_________________________________________
+THE STATE
+downloading example (downloads continuously)
+we need to keep track of what we downloading (so we have state)
+
+Shared & mutable State is BAD IDEA (both in threads and coroutines)
+We can share using communication (and use coroutines to track state)
+could:
+launch {
+  for (ref in references) {
+    dostuff
+  }
+} ####but we need to passin those referecnes somehow
+__ __ __ __ __ __
+ie: Channels like a simple pipe
+fun CoroutineScope.downloader(
+  references: ReceiveChannel<REference>,
+) =
+  launch {
+    dostuff using references
+      # but need to have limits on stuff here
+      # what if there are 100 references?
+      for (ref in references) {
+        launch {this is bad idea just launching unlimited}
+      }
+  } ## not the extension function on CoroutineScope
+
+in order to solve the unlimited concurrency issue, we need a worker pool
+so we add another channel to send to the worker pool
+fun CoroutineScope.downlaoder(
+  references: ReceiveChannel<Reference>,
+  location: SendChannel<Location>
+)....
+      #   and inside the for loop for refs
+      for (ref in references) {
+        instead of: launch {this is bad idea just launching unlimited}
+        we: locations.send(ref.location) # we send to another coroutine worker
+      }
+    THE WORKER:
+fun CoroutineScope.worker(
+  locations: RecieveChannel<Locations>
+) = launch {
+  for (loc in locations) {
+    process some stuff here
+    val content = downloadContent(loc)
+    processContent(ref, content)
+    # QUESTION: but how do we track references now???? WE need to deliver results back?
+    # ANSWER: we can just send some data class we define to hold the result:
+            (Add:-> contents: SendChannel<Result> to our function definition, and
+            add anothe recieve channel to our downloader coroutine)
+    and then just add
+    contents.send(Result(ref, content)) # we send back to the other coroutine
+  } # the worker just processes a single loc at a time
+}
+QUESTION:BUT now we have 2 channels in our main function, we are sharing mutable state????
+ANSWER: we need to use the select {} scope
+select<Unit> {
+  references.onReceive {ref -> ....}
+  contents.onReceive { (ref, content) -> ....}
+}
+SO:
+launch {
+  val requested = mutalbeMapOf<Location, MutableList<Reference>>()
+# yes loop forever, the coroutine just hangs around
+  while (true) {
+    select<Unit> {
+      references.onRecieve { ref ->
+          val loc = ref.location
+          val refs = requested[loc]
+          if (refs == null) {
+            requested[loc] = mutableListOf(ref)
+            locations.send(loc)
+          } else {
+            refs.add(ref)
+          }
+      }
+      contents.onReceive { (ref, content) ->
+          val refs = requested.remove(loc)!!
+          for (ref in refs) {
+            processContent(ref, content)
+          }
+      }
+    }
+  }
+}
+# PUTTING IT TOGETHER
+ encapsulate the entire setup:
+ fun CoroutineScope.processReferences(references: ReceiveChannel<Referecnes>) {
+   val locations = Channel<Location>()
+   val workerresults = Channel<Results>()
+   repeat(N_WORKERS) { worker(locations, contents)}
+   downloader(references, locations, contents)
+ }
+
+ROOT COROUTINE SCOPE
+class SomethingWithLifecycle: CoroutineScope {
+# the extension makes things nice
+#question: but we need to give the class context
+  private val job = Job() # we creeate a Job (lifecycle of coroutines)
+  fun close() { #need a close because it has a lifecycle
+    job.cancel() #how to close a coroutine
+  }
+  override val coroutineContext: CoroutineContext
+    get() = job + Dispatchers.Main (one place to add defaults for corouintes)
+  now:
+  fun doSomething() {
+    processReferences(references)
+  }
+}
+SUSPEND VS SCOPE
+##### suspend fun
+it does something until completion without blocking
+only finishes when all things are done
+
+#### CoroutineScope.something(...)
+Launches a new coroutine and quickly returns
+
+Good practice (suspend OR coroutine scope, not both)
+Avoid Shared Mutable state
+Coroutines are lightweight, not like threads, stucture code differently
+
+
+EOF
+echo "$words"
+}
+
+wiki_kotlin_basics() {
+read -d '' words <<- EOF
+  .
+__________________________________________
+NULLABLE stuff
+val length: Int = s?.length ?: 0 (add default to make non nullable)
+if (s == null) return (could also use fail() insteead of return here)
+  s.length (not nullable anymore)
+
+__________________________________________
+
+
+EOF
+echo "$words"
+}

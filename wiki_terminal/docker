@@ -1,0 +1,35 @@
+wiki_docker_containers() {
+read -d '' words <<- EOF
+  .
+  image vs container
+    image is the app in binary
+    container is a running instance (like a kube pod)
+
+  new command approach:
+  docker container ls
+  docker container run --publish 80:80 --detach nginx --name webhost
+  docker container logs webhost
+  docker container top webhost
+  docker container rm -f 63f (kill last running container)
+
+  order of event for docker run:
+  1)looks in local image registry for image
+  2)looks
+  3) if no version specified, downloads the latest
+  4)
+
+EOF
+echo "$words"
+}
+
+wiki_docker_images() {
+read -d '' words <<- EOF
+  .
+  image vs container
+    image is the app in binary
+    container is a running instance (like a kube pod)
+
+EOF
+echo "$words"
+}
+

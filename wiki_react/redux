@@ -1,0 +1,60 @@
+def wiki_redux() {
+  read -d '' help <<- EOF
+  .
+  _____Redux_____
+  Actions -> reducers -> Store
+  we dispatch actions-> store.dispatch(action_object)
+  Actions:
+    basically the name of a callback and some data payload in an object
+    const action = {type: 'split', payload: 'asdf'}
+  Reducers:
+    basically a bunch of functions in an if statement tree
+    MUST RETURN NEW OBJECT!!
+  Store:
+    all the data in the app
+    we create a store with redux giving it the reducer bunch
+    the store has a dispatch() function, and getState()
+    dispatch()-> it will use its current state and pass the action with the state to the reducer which will call its function and return something, this becomes the new state of the store.
+    .
+    .
+    Redux also gives us combineReducers
+      we want multiple reducers
+        called with an object of reducers
+        will combine all of them into one reducer for the Store to use (it expects 1 reducer)
+        BUT
+        NB: each reducer name will be identification of state name in the store. so 2 reducers named Color, Time represet Store state, 2 values, Color, and Time
+    .
+  ___React Redux Provider____
+  offers Provider: <Provider store={createStore(reducer)}>
+  its what allows the Store state to be available to the app
+  its the top level tag that wraps the app.
+  its can only have a single child component
+  .
+  .
+  ___Accessing State from Provider ___
+   we need to access state from inside redux, but from react
+   so we need to use react-redux lib.
+   we use a Connect()
+
+   const mapStateToProps = state => {
+    # takes state inside store
+    return {whatyouwantpropnametobe: state.Color}
+    ^^ what you want prop name to be for that Component
+   }
+   export default connect(mapStateToProps)(Component);
+
+   connect calls the first func with the state
+   filters that state and passes to the second param (the Component)
+  can ALSO use connect for action creators:
+    will create listeners on the actionCreator() functions and pass them in as props.. to be used to generate actions.
+  used in 2cd parameter. connect(null, all_actions)
+  .
+
+  .
+  PERFORMANT List Rendering:
+  list view is a tool we use provided by react native
+  only uses components that can appear on screen, not size of list
+  import { FlatList } from 'react-native';
+EOF
+echo "$help"
+}
